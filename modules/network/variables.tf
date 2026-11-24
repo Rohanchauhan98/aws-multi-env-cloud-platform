@@ -19,3 +19,14 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "enable_nat_gateway" {
+  description = "Create a single shared NAT gateway for private subnets. Billed hourly."
+  type        = bool
+  default     = false
+}
+
+variable "interface_endpoint_services" {
+  description = "Interface endpoint service suffixes, e.g. [\"ecr.api\", \"ecr.dkr\", \"logs\", \"secretsmanager\"]. Billed hourly per AZ."
+  type        = list(string)
+  default     = []
+}

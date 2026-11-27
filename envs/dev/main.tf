@@ -21,3 +21,13 @@ module "network" {
     ManagedBy = "terraform"
   }
 }
+module "pipeline" {
+  source        = "../../modules/pipeline"
+  env_name      = "dev"
+  force_destroy = true
+
+  tags = {
+    Project   = "multi-env-cloud-platform"
+    ManagedBy = "terraform"
+  }
+}

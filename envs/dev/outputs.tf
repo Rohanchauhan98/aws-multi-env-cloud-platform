@@ -9,3 +9,7 @@ output "jobs_queue_url" {
 output "jobs_table" {
   value = module.pipeline.table_name
 }
+
+output "ecr_repository_urls" {
+  value = module.ecr.repository_urls
+}

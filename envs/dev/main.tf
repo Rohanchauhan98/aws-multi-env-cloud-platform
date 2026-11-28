@@ -31,3 +31,9 @@ module "pipeline" {
     ManagedBy = "terraform"
   }
 }
+
+module "ecr" {
+  source       = "../../modules/ecr"
+  name_prefix  = "dev"
+  force_delete = true
+}

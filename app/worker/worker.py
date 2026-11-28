@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import signal
+import time
 import uuid
 from datetime import datetime, timezone
 from urllib.parse import unquote_plus
@@ -155,8 +156,18 @@ def main():
     signal.signal(signal.SIGTERM, _request_stop)
     signal.signal(signal.SIGINT, _request_stop)
     log.info("worker started")
+    delay = 1
     while not _stop:
-        poll_once()
+        try:
+            poll_once()
+            delay = 1
+        except Exception:
+            log.exception("poll failed; retrying in %ss", delay)
+            for _ in range(delay):
+                if _stop:
+                    break
+                time.sleep(1)
+            delay = min(delay * 2, 30)
     log.info("worker stopped")
 
 

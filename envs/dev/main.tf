@@ -37,3 +37,26 @@ module "ecr" {
   name_prefix  = "dev"
   force_delete = true
 }
+module "ecs" {
+  source = "../../modules/ecs"
+
+  name_prefix = "dev"
+
+  vpc_id            = module.network.vpc_id
+  public_subnet_ids = module.network.public_subnet_ids
+
+  table_arn   = module.pipeline.table_arn
+  table_name  = module.pipeline.table_name
+  bucket_arn  = module.pipeline.bucket_arn
+  bucket_name = module.pipeline.bucket_name
+  queue_arn   = module.pipeline.queue_arn
+  queue_url   = module.pipeline.queue_url
+
+  api_image    = "${module.ecr.repository_urls["api"]}:f32d5f4"
+  worker_image = "${module.ecr.repository_urls["worker"]}:f32d5f4"
+
+  tags = {
+    Project   = "multi-env-cloud-platform"
+    ManagedBy = "terraform"
+  }
+}
